@@ -23,14 +23,42 @@ class Welcome extends CI_Controller
      */
     public function index()
     {
+
+        $nama = $this->input->post('nama');
+        $nim = $this->input->post('nim');
+        $umur = $this->input->post('umur');
+
+        if ($nama == 'rafihana' && $nim == 'g111220044' && $umur == '23'){
+            redirect('tampil');
+        } 
+
+
         $blade = new Blade(VIEWPATH, APPPATH . 'cache');
         echo $blade->make('form', [])->render();
+
+    }
+    public function tampil()
+    
+    {
+
+        $nama = $this->input->post('nama');
+        $nim = $this->input->post('nim');
+        $umur = $this->input->post('umur');
+        $status = '';
+
+        if ($umur >= 0 && $umur <= 10) {
+            $status = 'Anak';
+        } elseif ($umur > 10 && $umur <= 20) {
+            $status = 'Remaja';
+        } elseif ($umur > 20 && $umur <= 30) {
+            $status = 'Dewasa';
+        } elseif ($umur > 30) {
+            $status = 'Tua';
+        }
+        
+        $blade = new Blade(VIEWPATH, APPPATH . 'cache');
+        echo $blade->make('tampil', ['nama' => $nama, 'nim' => $nim, 'umur' => $umur, 'status' => $status])->render();
+
     }
 
-    public function tampil()
-    {
-        $nama = 'tata';
-        $blade = new Blade(VIEWPATH, APPPATH . 'cache');
-        echo $blade->make('tampil', ['nama' => $nama])->render();
-    }
 }
